@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client"
 
 import { useState } from "react"
@@ -16,7 +15,12 @@ type GameWithId = Game & {
   id: string
 }
 
-function GameCard({ title, developer, deleteGame, cardIndex }: Game) {
+type GameCardProps = Game & {
+  id: string
+  onDelete: (id: string) => void
+}
+
+function GameCard({ title, developer, onDelete, id }: GameCardProps) {
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between">
@@ -28,7 +32,7 @@ function GameCard({ title, developer, deleteGame, cardIndex }: Game) {
           </div>
         </div>
         <CardFooter className="p-0">
-          <Button onClick={() => deleteGame(cardIndex)} variant="ghost" className="cursor-pointer">
+          <Button onClick={() => onDelete(id)} variant="ghost" className="cursor-pointer">
             <X />
           </Button>
         </CardFooter>
@@ -45,8 +49,8 @@ function FavoriteGames() {
     setGames((prev) => [...prev, game])
   }
 
-  function handleDeleteGame(cardIndex) {
-    setGames((prev) => prev.filter((item, index) => index !== cardIndex))
+  function handleDeleteGame(id: string) {
+    setGames((prev) => prev.filter((item) => item.id !== id))
   }
 
   return (
@@ -55,13 +59,13 @@ function FavoriteGames() {
         <Plus /> Adicionar Game
       </Button>
       <ul className="flex flex-col gap-4">
-        {games.map((game, index) =>
+        {games.map((game) =>
           <li key={game.id}>
             <GameCard
               title={game.title}
               developer={game.developer}
-              deleteGame={handleDeleteGame}
-              cardIndex={index}
+              onDelete={handleDeleteGame}
+              id={game.id}
             />
           </li>
         )}
