@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Card, CardDescription, CardFooter, CardTitle, } from "@/components/ui/card"
 import { Trophy, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -8,6 +9,10 @@ import { Plus } from "lucide-react"
 type Game = {
   title: string
   developer: string
+}
+
+type GameWithId = Game & {
+  id: number
 }
 
 function GameCard({ title, developer }: Game) {
@@ -32,8 +37,11 @@ function GameCard({ title, developer }: Game) {
 }
 
 function FavoriteGames() {
+  const [games, setGames] = useState<GameWithId[]>([])
+
   function handleAddGame() {
-    console.log('alou')
+    const game: GameWithId = { title: "Elden Ring", developer: "From Software", id: Math.random() }
+    setGames((prev) => [...prev, game])
   }
 
   return (
@@ -41,7 +49,13 @@ function FavoriteGames() {
       <Button onClick={handleAddGame} className="cursor-pointer">
         <Plus /> Adicionar Game
       </Button>
-      <GameCard title="Elden Ring" developer="From Software" />
+      <ul className="flex flex-col gap-4">
+        {games.map((game) =>
+          <li key={game.id}>
+            <GameCard title={game.title} developer={game.developer} />
+          </li>
+        )}
+      </ul>
     </>
   )
 }
