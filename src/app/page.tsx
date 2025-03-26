@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardFooter, CardTitle, } from "@/components/ui/card"
-import { Trophy, X, Gamepad2 } from "lucide-react"
+import { Trophy, X, Gamepad2, Plus } from "lucide-react"
 
 type GameCardProps = {
   title: string
@@ -37,10 +37,19 @@ function Header() {
   )
 }
 
+function FormAddGame() {
+  return (
+    <Button className="cursor-pointer">
+      <Plus /> Adicionar Game
+    </Button>
+  )
+}
+
 function Home() {
   return (
     <div className="max-w-[420px] px-4 py-20 mx-auto flex flex-col gap-6">
       <Header />
+      <FormAddGame />
       <GameCard title="Elden Ring" developer="From Software" />
     </div>
   )
