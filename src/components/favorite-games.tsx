@@ -5,12 +5,12 @@ import { Trophy, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
-type GameCardProps = {
+type Game = {
   title: string
   developer: string
 }
 
-function GameCard({ title, developer }: GameCardProps) {
+function GameCard({ title, developer }: Game) {
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between">
