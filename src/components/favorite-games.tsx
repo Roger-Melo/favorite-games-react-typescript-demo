@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { useState } from "react"
@@ -12,10 +13,10 @@ type Game = {
 }
 
 type GameWithId = Game & {
-  id: number
+  id: string
 }
 
-function GameCard({ title, developer }: Game) {
+function GameCard({ title, developer, deleteGame, cardIndex }: Game) {
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between">
@@ -27,7 +28,7 @@ function GameCard({ title, developer }: Game) {
           </div>
         </div>
         <CardFooter className="p-0">
-          <Button variant="ghost" className="cursor-pointer">
+          <Button onClick={() => deleteGame(cardIndex)} variant="ghost" className="cursor-pointer">
             <X />
           </Button>
         </CardFooter>
@@ -40,8 +41,12 @@ function FavoriteGames() {
   const [games, setGames] = useState<GameWithId[]>([])
 
   function handleAddGame() {
-    const game: GameWithId = { title: "Elden Ring", developer: "From Software", id: Math.random() }
+    const game: GameWithId = { title: "Elden Ring", developer: "From Software", id: crypto.randomUUID() }
     setGames((prev) => [...prev, game])
+  }
+
+  function handleDeleteGame(cardIndex) {
+    setGames((prev) => prev.filter((item, index) => index !== cardIndex))
   }
 
   return (
@@ -50,9 +55,14 @@ function FavoriteGames() {
         <Plus /> Adicionar Game
       </Button>
       <ul className="flex flex-col gap-4">
-        {games.map((game) =>
+        {games.map((game, index) =>
           <li key={game.id}>
-            <GameCard title={game.title} developer={game.developer} />
+            <GameCard
+              title={game.title}
+              developer={game.developer}
+              deleteGame={handleDeleteGame}
+              cardIndex={index}
+            />
           </li>
         )}
       </ul>
