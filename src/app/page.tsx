@@ -1,6 +1,7 @@
+import { FormAddGame } from "@/components/form-add-game"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardFooter, CardTitle, } from "@/components/ui/card"
-import { Trophy, X, Gamepad2, Plus } from "lucide-react"
+import { Trophy, X, Gamepad2 } from "lucide-react"
 
 type GameCardProps = {
   title: string
@@ -34,14 +35,6 @@ function Header() {
       <Gamepad2 size={76} />
       <h1 className="text-4xl font-medium tracking-tight">Seus Games Favoritos</h1>
     </header>
-  )
-}
-
-function FormAddGame() {
-  return (
-    <Button className="cursor-pointer">
-      <Plus /> Adicionar Game
-    </Button>
   )
 }
 
