@@ -1,14 +1,5 @@
 import { FavoriteGames } from "@/components/favorite-games"
-import { Gamepad2 } from "lucide-react"
-
-function Header() {
-  return (
-    <header className="flex flex-col items-center">
-      <Gamepad2 size={76} />
-      <h1 className="text-4xl font-medium tracking-tight">Seus Games Favoritos</h1>
-    </header>
-  )
-}
+import { Header } from "@/components/header"
 
 function Home() {
   return (
