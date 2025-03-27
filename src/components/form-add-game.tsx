@@ -49,7 +49,7 @@ function FormAddGame({ onSubmitGame }: AddGameFormProps) {
             </FormItem>
           }
         />
-        <Button type="submit" className="cursor-pointer w-full">
+        <Button type="submit" className="cursor-pointer w-full py-6">
           <Plus /> Adicionar Game
         </Button>
       </form>
