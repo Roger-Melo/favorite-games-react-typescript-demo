@@ -11,10 +11,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { string, z } from "zod"
 
-type Game = {
-  title: string
-  developer: string
-}
+const gameSchema = z.object({
+  title: string().min(1, { message: "Insira no mínimo 1 caractere" }),
+  developer: string().min(1, { message: "Insira no mínimo 1 caractere" }),
+})
+
+type Game = z.infer<typeof gameSchema>
 
 type GameWithId = Game & {
   id: string
@@ -46,16 +48,12 @@ function GameCard({ title, developer, onDelete, id }: GameCardProps) {
   )
 }
 
-const gameSchema = z.object({
-  title: string().min(1, { message: "Insira no mínimo 1 caractere" }),
-  developer: string().min(1, { message: "Insira no mínimo 1 caractere" }),
-})
+type AddGameFormProps = {
+  onSubmitGame: (values: Game) => void
+}
 
-type GameSchema = z.infer<typeof gameSchema>
-
-function FavoriteGames() {
-  const [games, setGames] = useState<GameWithId[]>([])
-  const form = useForm<GameSchema>({
+function AddGameForm({ onSubmitGame }: AddGameFormProps) {
+  const form = useForm<Game>({
     resolver: zodResolver(gameSchema),
     defaultValues: { title: "", developer: "" },
   })
@@ -67,7 +65,47 @@ function FavoriteGames() {
     }
   }, [reset, formState.isSubmitSuccessful])
 
-  function addGame(values: GameSchema) {
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmitGame)} className="flex flex-col gap-4">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) =>
+            <FormItem>
+              <FormLabel>Game</FormLabel>
+              <FormControl>
+                <Input placeholder="Elden Ring" type="text" {...field} autoFocus />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          }
+        />
+        <FormField
+          control={form.control}
+          name="developer"
+          render={({ field }) =>
+            <FormItem>
+              <FormLabel>Studio</FormLabel>
+              <FormControl>
+                <Input placeholder="From Software" type="text" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          }
+        />
+        <Button type="submit" className="cursor-pointer w-full">
+          <Plus /> Adicionar Game
+        </Button>
+      </form>
+    </Form>
+  )
+}
+
+function FavoriteGames() {
+  const [games, setGames] = useState<GameWithId[]>([])
+
+  function addGame(values: Game) {
     const game: GameWithId = { title: values.title, developer: values.developer, id: crypto.randomUUID() }
     setGames((prev) => [...prev, game])
   }
@@ -78,39 +116,7 @@ function FavoriteGames() {
 
   return (
     <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(addGame)} className="flex flex-col gap-4">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) =>
-              <FormItem>
-                <FormLabel>Game</FormLabel>
-                <FormControl>
-                  <Input placeholder="Elden Ring" type="text" {...field} autoFocus />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            }
-          />
-          <FormField
-            control={form.control}
-            name="developer"
-            render={({ field }) =>
-              <FormItem>
-                <FormLabel>Studio</FormLabel>
-                <FormControl>
-                  <Input placeholder="From Software" type="text" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            }
-          />
-          <Button type="submit" className="cursor-pointer w-full">
-            <Plus /> Adicionar Game
-          </Button>
-        </form>
-      </Form>
+      <AddGameForm onSubmitGame={addGame} />
       <ul className="flex flex-col gap-4">
         {games.map((game) =>
           <li key={game.id}>
