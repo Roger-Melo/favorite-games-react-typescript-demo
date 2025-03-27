@@ -44,18 +44,18 @@ function GameCard({ title, developer, onDelete, id }: GameCardProps) {
 function FavoriteGames() {
   const [games, setGames] = useState<GameWithId[]>([])
 
-  function handleAddGame() {
+  function addGame() {
     const game: GameWithId = { title: "Elden Ring", developer: "From Software", id: crypto.randomUUID() }
     setGames((prev) => [...prev, game])
   }
 
-  function handleDeleteGame(id: string) {
+  function deleteGame(id: string) {
     setGames((prev) => prev.filter((item) => item.id !== id))
   }
 
   return (
     <>
-      <Button onClick={handleAddGame} className="cursor-pointer">
+      <Button onClick={addGame} className="cursor-pointer">
         <Plus /> Adicionar Game
       </Button>
       <ul className="flex flex-col gap-4">
@@ -64,7 +64,7 @@ function FavoriteGames() {
             <GameCard
               title={game.title}
               developer={game.developer}
-              onDelete={handleDeleteGame}
+              onDelete={deleteGame}
               id={game.id}
             />
           </li>
