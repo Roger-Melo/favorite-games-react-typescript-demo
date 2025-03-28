@@ -73,6 +73,17 @@ test.describe("Delete Games", () => {
     await listItem.getByRole("button").click()
     await expect(listItem).not.toBeVisible()
   })
+
+  test("should delete the right game among other games", async ({ page }) => {
+    for (const game of favGames) {
+      await addGame({ game, page })
+    }
+
+    // Delete the right game
+    const listItem = page.getByRole("listitem").filter({ hasText: favGames[1].title })
+    await listItem.getByRole("button").click()
+    await expect(listItem).not.toBeVisible()
+  })
 })
 
 // TODO: should trim entered text
