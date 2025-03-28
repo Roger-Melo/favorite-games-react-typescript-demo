@@ -83,6 +83,9 @@ test.describe("Delete Games", () => {
     const listItem = page.getByRole("listitem").filter({ hasText: favGames[1].title })
     await listItem.getByTestId("delete").click()
     await expect(listItem).not.toBeVisible()
+
+    // Check the items quantity
+    await expect(page.getByRole("listitem")).toHaveCount(favGames.length - 1)
   })
 })
 
