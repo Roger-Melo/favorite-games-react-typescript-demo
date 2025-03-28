@@ -1,6 +1,7 @@
 import { Card, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
 import { Trophy, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { type GameCardProps } from "@/lib/types"
 
 function GameCard({ title, developer, onDelete, id }: GameCardProps) {
@@ -15,14 +16,21 @@ function GameCard({ title, developer, onDelete, id }: GameCardProps) {
           </div>
         </div>
         <CardFooter className="p-0">
-          <Button
-            data-testid="delete"
-            onClick={() => onDelete(id)}
-            variant="ghost"
-            className="cursor-pointer"
-          >
-            <X />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  data-testid="delete"
+                  onClick={() => onDelete(id)}
+                  variant="ghost"
+                  className="cursor-pointer"
+                >
+                  <X />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Remover</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </CardFooter>
       </div>
     </Card>
