@@ -63,3 +63,16 @@ test.describe("Add Games", () => {
     await expect(inputStudio).toBeEmpty()
   })
 })
+
+test.describe("Delete Games", () => {
+  test("should delete the game item", async ({ page }) => {
+    await addGame({ game: favGames[0], page })
+
+    // Delete the added game
+    const listItem = page.getByRole("listitem").filter({ hasText: favGames[0].title })
+    await listItem.getByRole("button").click()
+    await expect(listItem).not.toBeVisible()
+  })
+})
+
+// TODO: should trim entered text
