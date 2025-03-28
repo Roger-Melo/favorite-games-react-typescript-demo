@@ -49,4 +49,15 @@ test.describe("New Fav Game", () => {
     await expect(listItem).toContainText([favGames[0].title, favGames[1].title])
     await expect(listItem).toContainText([favGames[0].studio, favGames[1].studio])
   })
+
+  test("should clear text input fields when an item is added", async ({ page }) => {
+    // Create 1st game
+    await createGame({ game: favGames[2], page })
+
+    // Check that form is empty
+    const inputGame = page.getByRole("textbox", { name: "Game" })
+    const inputStudio = page.getByRole("textbox", { name: "Studio" })
+    await expect(inputGame).toBeEmpty()
+    await expect(inputStudio).toBeEmpty()
+  })
 })
