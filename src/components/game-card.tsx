@@ -4,6 +4,23 @@ import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { type GameCardProps } from "@/lib/types"
 
+type TooltipDeleteGameProps = {
+  children: React.ReactNode
+}
+
+function TooltipDeleteGame({ children }: TooltipDeleteGameProps) {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {children}
+        </TooltipTrigger>
+        <TooltipContent>Remover</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}
+
 function GameCard({ title, developer, onDelete, id }: GameCardProps) {
   return (
     <Card className="p-4">
@@ -15,22 +32,18 @@ function GameCard({ title, developer, onDelete, id }: GameCardProps) {
             <CardDescription>{developer}</CardDescription>
           </div>
         </div>
+
         <CardFooter className="p-0">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  data-testid="delete"
-                  onClick={() => onDelete(id)}
-                  variant="ghost"
-                  className="cursor-pointer"
-                >
-                  <X />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Remover</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <TooltipDeleteGame>
+            <Button
+              data-testid="delete"
+              onClick={() => onDelete(id)}
+              variant="ghost"
+              className="cursor-pointer"
+            >
+              <X />
+            </Button>
+          </TooltipDeleteGame>
         </CardFooter>
       </div>
     </Card>
