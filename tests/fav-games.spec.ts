@@ -25,6 +25,8 @@ async function addGame({ game, page }: AddGameProps) {
   await inputStudio.click()
   await inputStudio.fill(game.studio)
   await buttonAddGame.click()
+  const listItem = page.getByRole("listitem").filter({ hasText: game.title })
+  await expect(listItem).toBeVisible()
 }
 
 test.beforeEach(async ({ page }) => {
