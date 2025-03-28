@@ -5,7 +5,7 @@ type Game = {
   studio: string
 }
 
-type CreateGameProps = {
+type AddGameProps = {
   game: Game,
   page: Page,
 }
@@ -16,7 +16,7 @@ const favGames = [
   { title: "Fatal Frame II", studio: "Tecmo Co." },
 ] as const
 
-async function createGame({ game, page }: CreateGameProps) {
+async function addGame({ game, page }: AddGameProps) {
   const inputGame = page.getByRole("textbox", { name: "Game" })
   const inputStudio = page.getByRole("textbox", { name: "Studio" })
   const buttonAddGame = page.getByRole("button", { name: "Adicionar Game" })
@@ -31,19 +31,19 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/")
 })
 
-test.describe("New Fav Game", () => {
+test.describe("Add Games", () => {
   test("should allow to add game items", async ({ page }) => {
     const listItem = page.getByRole("listitem")
 
-    // Create 1st game
-    await createGame({ game: favGames[0], page })
+    // Add 1st game
+    await addGame({ game: favGames[0], page })
 
-    // Make sure the list only has one game item.
+    // Make sure the list only has one game item
     await expect(listItem).toContainText([favGames[0].title])
     await expect(listItem).toContainText([favGames[0].studio])
 
-    // Create 2st game
-    await createGame({ game: favGames[1], page })
+    // Add 2st game
+    await addGame({ game: favGames[1], page })
 
     // Make sure the list now has two game items
     await expect(listItem).toContainText([favGames[0].title, favGames[1].title])
@@ -51,8 +51,8 @@ test.describe("New Fav Game", () => {
   })
 
   test("should clear text input fields when an item is added", async ({ page }) => {
-    // Create 1st game
-    await createGame({ game: favGames[2], page })
+    // Add 1st game
+    await addGame({ game: favGames[2], page })
 
     // Check that form is empty
     const inputGame = page.getByRole("textbox", { name: "Game" })
