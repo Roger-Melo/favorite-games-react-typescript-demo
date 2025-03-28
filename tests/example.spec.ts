@@ -33,7 +33,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("New Fav Game", () => {
   test("should allow to add game items", async ({ page }) => {
-    const listItem = page.locator("ul > li")
+    const listItem = page.getByRole("listitem")
 
     // Create 1st game
     await createGame({ game: favGames[0], page })
