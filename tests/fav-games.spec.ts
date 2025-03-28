@@ -70,7 +70,7 @@ test.describe("Delete Games", () => {
 
     // Delete the added game
     const listItem = page.getByRole("listitem").filter({ hasText: favGames[0].title })
-    await listItem.getByRole("button").click()
+    await listItem.getByTestId("delete").click()
     await expect(listItem).not.toBeVisible()
   })
 
@@ -81,7 +81,7 @@ test.describe("Delete Games", () => {
 
     // Delete the right game
     const listItem = page.getByRole("listitem").filter({ hasText: favGames[1].title })
-    await listItem.getByRole("button").click()
+    await listItem.getByTestId("delete").click()
     await expect(listItem).not.toBeVisible()
   })
 })

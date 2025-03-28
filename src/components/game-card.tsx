@@ -15,7 +15,12 @@ function GameCard({ title, developer, onDelete, id }: GameCardProps) {
           </div>
         </div>
         <CardFooter className="p-0">
-          <Button onClick={() => onDelete(id)} variant="ghost" className="cursor-pointer">
+          <Button
+            data-testid="delete"
+            onClick={() => onDelete(id)}
+            variant="ghost"
+            className="cursor-pointer"
+          >
             <X />
           </Button>
         </CardFooter>
