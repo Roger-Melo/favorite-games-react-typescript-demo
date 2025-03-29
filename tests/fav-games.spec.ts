@@ -1,9 +1,5 @@
 import { test, expect, type Page } from "@playwright/test"
-
-type Game = {
-  title: string
-  studio: string
-}
+import { type Game } from "@/lib/types"
 
 type AddGameProps = {
   game: Game,
