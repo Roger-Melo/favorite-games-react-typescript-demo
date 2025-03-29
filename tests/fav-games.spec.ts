@@ -44,6 +44,7 @@ test.describe("Add Games", () => {
     // Make sure the list only has one game item
     await expect(listItem).toContainText([favGames[0].title])
     await expect(listItem).toContainText([favGames[0].studio])
+    await expect(listItem).toHaveCount(1)
 
     // Add 2st game
     await addGame({ game: favGames[1], page })
@@ -52,12 +53,15 @@ test.describe("Add Games", () => {
     // Make sure the list now has two game items
     await expect(listItem).toContainText([favGames[0].title, favGames[1].title])
     await expect(listItem).toContainText([favGames[0].studio, favGames[1].studio])
+    await expect(listItem).toHaveCount(2)
   })
 
   test("should clear text input fields when an item is added", async ({ page }) => {
     // Add 1st game
     await addGame({ game: favGames[2], page })
     await expectToBeVisible({ game: favGames[2], page })
+    const listItem = page.getByRole("listitem")
+    await expect(listItem).toHaveCount(1)
 
     // Check that form is empty
     const inputGame = page.getByRole("textbox", { name: "Game" })
@@ -71,11 +75,14 @@ test.describe("Delete Games", () => {
   test("should delete the game item", async ({ page }) => {
     await addGame({ game: favGames[0], page })
     await expectToBeVisible({ game: favGames[0], page })
+    const listItem = page.getByRole("listitem")
+    await expect(listItem).toHaveCount(1)
 
     // Delete the added game
-    const listItem = page.getByRole("listitem").filter({ hasText: favGames[0].title })
-    await listItem.getByTestId("delete").click()
-    await expect(listItem).not.toBeVisible()
+    const addedGame = page.getByRole("listitem").filter({ hasText: favGames[0].title })
+    await addedGame.getByTestId("delete").click()
+    await expect(addedGame).not.toBeVisible()
+    await expect(addedGame).toHaveCount(0)
   })
 
   test("should delete the right game among other games", async ({ page }) => {
