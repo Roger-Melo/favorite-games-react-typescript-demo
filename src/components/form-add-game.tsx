@@ -10,7 +10,7 @@ import { type Game, type AddGameFormProps, gameSchema } from "@/lib/types"
 function FormAddGame({ onSubmitGame }: AddGameFormProps) {
   const form = useForm<Game>({
     resolver: zodResolver(gameSchema),
-    defaultValues: { title: "", developer: "" },
+    defaultValues: { title: "", studio: "" },
   })
   const { reset, formState } = form
 
@@ -38,7 +38,7 @@ function FormAddGame({ onSubmitGame }: AddGameFormProps) {
         />
         <FormField
           control={form.control}
-          name="developer"
+          name="studio"
           render={({ field }) =>
             <FormItem>
               <FormLabel>Studio</FormLabel>

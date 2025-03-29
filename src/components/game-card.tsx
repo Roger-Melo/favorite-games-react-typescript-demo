@@ -21,7 +21,7 @@ function TooltipDeleteGame({ children }: TooltipDeleteGameProps) {
   )
 }
 
-function GameCard({ title, developer, onDelete, id }: GameCardProps) {
+function GameCard({ title, studio, onDelete, id }: GameCardProps) {
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between gap-2">
@@ -29,7 +29,7 @@ function GameCard({ title, developer, onDelete, id }: GameCardProps) {
           <Trophy size={26} strokeWidth={1} />
           <div className="max-w-[260px] truncate">
             <CardTitle className="text-lg">{title}</CardTitle>
-            <CardDescription>{developer}</CardDescription>
+            <CardDescription>{studio}</CardDescription>
           </div>
         </div>
 

@@ -9,7 +9,7 @@ function FavoriteGames() {
   const [games, setGames] = useState<GameWithId[]>([])
 
   function addGame(values: Game) {
-    const game: GameWithId = { title: values.title, developer: values.developer, id: crypto.randomUUID() }
+    const game: GameWithId = { title: values.title, studio: values.studio, id: crypto.randomUUID() }
     const duplicatedGame = games.some((g) => g.title.toLowerCase() === game.title.toLowerCase())
     if (duplicatedGame) {
       alert("Este game já foi adicionado. Por favor, adicione um novo game.")
@@ -30,7 +30,7 @@ function FavoriteGames() {
           <li key={game.id}>
             <GameCard
               title={game.title}
-              developer={game.developer}
+              studio={game.studio}
               onDelete={deleteGame}
               id={game.id}
             />
