@@ -88,5 +88,3 @@ test.describe("Delete Games", () => {
     await expect(page.getByRole("listitem")).toHaveCount(favGames.length - 1)
   })
 })
-
-// TODO: should trim entered text
