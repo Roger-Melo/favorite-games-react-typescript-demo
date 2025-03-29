@@ -10,6 +10,11 @@ function FavoriteGames() {
 
   function addGame(values: Game) {
     const game: GameWithId = { title: values.title, developer: values.developer, id: crypto.randomUUID() }
+    const duplicatedGame = games.some((g) => g.title.toLowerCase() === game.title.toLowerCase())
+    if (duplicatedGame) {
+      alert("Este game já foi adicionado. Por favor, adicione um novo game.")
+      return
+    }
     setGames((prev) => [...prev, game])
   }
 
