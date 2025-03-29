@@ -30,7 +30,7 @@ async function addGame({ game, page }: AddGameProps) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://127.0.0.1:3000")
+  await page.goto("/")
 })
 
 test.describe("Add Games", () => {
