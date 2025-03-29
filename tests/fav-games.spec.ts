@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test"
 import { type Game } from "@/lib/types"
 
-type AddGameProps = {
+type CommonGameProps = {
   game: Game,
   page: Page,
 }
@@ -12,7 +12,13 @@ const favGames = [
   { title: "Fatal Frame II", studio: "Tecmo Co." },
 ] as const
 
-async function addGame({ game, page }: AddGameProps) {
+async function expectToBeVisible({ game, page }: CommonGameProps) {
+  const listItem = page.getByRole("listitem")
+  await expect(listItem.filter({ hasText: game.title })).toBeVisible()
+  await expect(listItem.filter({ hasText: game.studio })).toBeVisible()
+}
+
+async function addGame({ game, page }: CommonGameProps) {
   const inputGame = page.getByRole("textbox", { name: "Game" })
   const inputStudio = page.getByRole("textbox", { name: "Studio" })
   const buttonAddGame = page.getByRole("button", { name: "Adicionar Game" })
@@ -21,8 +27,6 @@ async function addGame({ game, page }: AddGameProps) {
   await inputStudio.click()
   await inputStudio.fill(game.studio)
   await buttonAddGame.click()
-  const listItem = page.getByRole("listitem").filter({ hasText: game.title })
-  await expect(listItem).toBeVisible()
 }
 
 test.beforeEach(async ({ page }) => {
@@ -35,6 +39,7 @@ test.describe("Add Games", () => {
 
     // Add 1st game
     await addGame({ game: favGames[0], page })
+    await expectToBeVisible({ game: favGames[0], page })
 
     // Make sure the list only has one game item
     await expect(listItem).toContainText([favGames[0].title])
@@ -42,6 +47,7 @@ test.describe("Add Games", () => {
 
     // Add 2st game
     await addGame({ game: favGames[1], page })
+    await expectToBeVisible({ game: favGames[1], page })
 
     // Make sure the list now has two game items
     await expect(listItem).toContainText([favGames[0].title, favGames[1].title])
@@ -51,6 +57,7 @@ test.describe("Add Games", () => {
   test("should clear text input fields when an item is added", async ({ page }) => {
     // Add 1st game
     await addGame({ game: favGames[2], page })
+    await expectToBeVisible({ game: favGames[2], page })
 
     // Check that form is empty
     const inputGame = page.getByRole("textbox", { name: "Game" })
@@ -63,6 +70,7 @@ test.describe("Add Games", () => {
 test.describe("Delete Games", () => {
   test("should delete the game item", async ({ page }) => {
     await addGame({ game: favGames[0], page })
+    await expectToBeVisible({ game: favGames[0], page })
 
     // Delete the added game
     const listItem = page.getByRole("listitem").filter({ hasText: favGames[0].title })
@@ -73,6 +81,7 @@ test.describe("Delete Games", () => {
   test("should delete the right game among other games", async ({ page }) => {
     for (const game of favGames) {
       await addGame({ game, page })
+      await expectToBeVisible({ game, page })
     }
 
     // Delete the right game
