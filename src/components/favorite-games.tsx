@@ -18,6 +18,9 @@ function FavoriteGames() {
   useEffect(() => {
     localforage.getItem("games")
       .then((games) => {
+        if (!games) {
+          return
+        }
         const validatedGamesArr = gamesWithIdSchema.safeParse(games)
         if (!validatedGamesArr.success) {
           alert("Houve um erro ao obter os games armazenados. Por favor, tente mais tarde.")
