@@ -5,12 +5,13 @@ export const gameSchema = z.object({
   studio: z.string().trim().min(1, { message: "Insira no mínimo 1 caractere" }),
 })
 
-export const gameWithIdSchema = gameSchema.extend({
-  id: z.string()
-})
+export const gamesWithIdSchema = z.array(gameSchema.extend({ id: z.string() }))
 
 export type Game = z.infer<typeof gameSchema>
-export type GameWithId = z.infer<typeof gameWithIdSchema>
+
+export type GameWithId = Game & {
+  id: string
+}
 
 export type GameCardProps = Game & {
   id: string
