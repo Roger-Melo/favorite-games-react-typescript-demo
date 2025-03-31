@@ -1,12 +1,31 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FormAddGame } from "@/components/form-add-game"
 import { GameCard } from "@/components/game-card"
-import { type GameWithId, type Game } from "@/lib/types"
+import { type GameWithId, type Game, gamesWithIdSchema } from "@/lib/types"
+import localforage from "localforage"
 
 function FavoriteGames() {
   const [games, setGames] = useState<GameWithId[]>([])
+
+  useEffect(() => {
+    localforage
+      .setItem("games", games)
+      .catch(() => alert("Houve um erro ao adicionar games no armazenamento. Por favor, tente mais tarde."))
+  }, [games])
+
+  useEffect(() => {
+    localforage.getItem("games")
+      .then((games) => {
+        const validatedGamesArr = gamesWithIdSchema.safeParse(games)
+        if (!validatedGamesArr.success) {
+          alert("Houve um erro ao obter os games armazenados. Por favor, tente mais tarde.")
+          return
+        }
+        setGames(validatedGamesArr.data)
+      })
+  }, [])
 
   function addGame(values: Game) {
     const game: GameWithId = { title: values.title, studio: values.studio, id: crypto.randomUUID() }
